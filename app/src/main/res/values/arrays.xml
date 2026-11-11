@@ -300,6 +300,7 @@
     <!-- Ubuntu -->
 
     <string-array name="ubuntu_suite_values" translatable="false">
+        <item>resolute</item> <!-- 26.04 LTS -->
         <item>questing</item> <!-- 25.10 -->
         <item>plucky</item>  <!-- 25.04 -->
         <item>noble</item>   <!-- 24.04 LTS -->

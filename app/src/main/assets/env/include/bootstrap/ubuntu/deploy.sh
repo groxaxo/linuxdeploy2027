@@ -37,7 +37,7 @@ apt_repository()
     echo "deb-src ${SOURCE_PATH} ${SUITE} main universe multiverse" >> "${CHROOT_DIR}/etc/apt/sources.list"
     # Add security updates repository
     case "${SUITE}" in
-        questing|plucky|noble|jammy|focal|bionic|xenial|trusty)
+        resolute|questing|plucky|noble|jammy|focal|bionic|xenial|trusty)
             echo "deb ${SOURCE_PATH} ${SUITE}-security main universe multiverse" >> "${CHROOT_DIR}/etc/apt/sources.list"
             echo "deb ${SOURCE_PATH} ${SUITE}-updates main universe multiverse" >> "${CHROOT_DIR}/etc/apt/sources.list"
             ;;
@@ -60,6 +60,7 @@ cat <<EOF
 
    --suite="${SUITE}"
      Version of Linux distribution, supported versions:
+     - "resolute" (26.04 LTS) - Supported until 2031
      - "questing" (25.10)
      - "plucky" (25.04)
      - "noble" (24.04 LTS) - Supported until 2029

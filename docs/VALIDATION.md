@@ -71,3 +71,20 @@ this is a sideloaded utility. Lint suppresses the Google Play target-level rule 
 that reason. Existing upstream deprecation/accessibility warnings remain visible.
 
 Toolchain reference: [Android Gradle Plugin 8.13](https://developer.android.com/build/releases/agp-8-13-0-release-notes).
+
+## Ubuntu 26.04 selector update — 2026-11-12
+
+- Added `resolute` to the Ubuntu suite selector and CLI help, with a dedicated
+  debootstrap script and security/updates APT sources. Noble remains the default.
+- `./gradlew --no-daemon syncUbuntuBootstrap syncUbuntuDebootstrapScripts
+  assembleDebug assembleRelease lint`: pass with SDK 35 and the existing toolchain.
+- `python3 -m unittest discover -s tests -v`: four tests pass, covering existing
+  jammy/noble component loading, noble/resolute merged-/usr extraction and
+  resolute component loading with main/security/updates APT sources.
+- Override files match their packaged asset copies. Resource/banner XML parses;
+  README local file links resolve.
+
+This adds a selectable recipe, not a certification of Ubuntu 26.04 on Android.
+No full resolute deployment or new device instrumentation was run for this update.
+The runtime evidence above remains specific to Ubuntu 24.04 on the emulator.
+The newly built APKs have not been signed or uploaded as a new release.

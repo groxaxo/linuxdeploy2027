@@ -6,7 +6,9 @@ before building. No manual copy or submodule initialization is needed.
 - `include/bootstrap/ubuntu/deploy.sh`: default noble release, architecture-aware
   mirror selection, security/updates APT sources, Android chroot APT settings.
 - `include/bootstrap/debian/debootstrap/scripts`: suite scripts for the vendored
-  debootstrap implementation.
+  debootstrap implementation, including Ubuntu 26.04 LTS (`resolute`).
+  Resolute uses the merged-/usr extraction path and receives security/updates
+  APT sources. Full Android deployment remains unvalidated; noble stays the default.
 
 The full environment and the four optional custom server/desktop components are
 tracked directly under `app/src/main/assets/env`. Their `EXTENDS` list explicitly
