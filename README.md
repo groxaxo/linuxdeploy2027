@@ -68,7 +68,7 @@ preserve container files before uninstalling that older app.
 
 | Release | Suite in Properties | Project status |
 | --- | --- | --- |
-| **Ubuntu 26.04 LTS — Resolute Raccoon** | `resolute` | Newly added selector and bootstrap recipe; full Android deployment not yet validated |
+| **Ubuntu 26.04 LTS — Resolute Raccoon** | `resolute` | Bootstrap, APT, SSH and stop/restart validated on an amd64 emulator; desktop not yet tested |
 | **Ubuntu 24.04 LTS — Noble Numbat** | `noble` | Default; deployment, SSH and LXDE/VNC validated on an amd64 emulator |
 | **Ubuntu 22.04 LTS — Jammy Jellyfish** | `jammy` | Available; optional server/desktop component loading has regression coverage |
 

@@ -1,0 +1,132 @@
+Ubuntu 26.04 LTS local emulator verification — 2026-11-12
+Source: 77c5ed7
+Host: dsanke; Android 15/API 35 x86_64 userdebug; kernel 6.6.50
+SELinux permissive; test-only musl su client/root daemon; no fixture code packaged.
+
+All deployment/runtime/SSH/stop/restart shell commands exited 0.
+Debug/release/test APK builds and lint succeeded. Four host tests passed.
+Release APK UI: resolute selected, saved and reopened successfully.
+No code patch was needed. See ../VALIDATION.md for scope and limits.
+
+== Original APK instrumentation ==
+
+ru.meefik.linuxdeploy.EnvironmentTest:.....
+
+Time: 0.244
+
+OK (5 tests)
+
+
+
+== Userspace, audit and repository checks ==
+## core/emulator : do_start
+## core/motd : do_start
+## core/hosts : do_start
+## core/hostname : do_start
+## core/mnt : do_start
+:: Configuring core/mnt ... 
+## core/net : do_start
+:: Configuring core/net ... 
+## core/timezone : do_start
+## core/su : do_start
+## core/locale : do_start
+## core/aid : do_start
+## core/profile : do_start
+## core/sudo : do_start
+## core/unchroot : do_start
+## core : do_start
+Ubuntu 26.04 LTS [running via Linux Deploy]
+PRETTY_NAME="Ubuntu 26.04 LTS"
+NAME="Ubuntu"
+VERSION_ID="26.04"
+VERSION="26.04 (Resolute Raccoon)"
+VERSION_CODENAME=resolute
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=resolute
+LOGO=ubuntu-logo
+
+== kernel and architecture ==
+Linux localhost 6.6.50-android15-8-g8adecb593e9b-ab12525588 #1 SMP PREEMPT Fri Oct 18 23:59:20 UTC 2024 x86_64 GNU/Linux
+amd64
+
+== package database audit ==
+
+
+== repository refresh ==
+Hit:1 http://archive.ubuntu.com/ubuntu resolute InRelease
+Hit:2 http://archive.ubuntu.com/ubuntu resolute-security InRelease
+Hit:3 http://archive.ubuntu.com/ubuntu resolute-updates InRelease
+Reading package lists...
+
+== installed runtime tools ==
+ldd (Ubuntu GLIBC 2.43-2ubuntu2) 2.43
+
+== userspace commands ==
+3.14.4
+uid=60000(android) gid=60000(android) groups=60000(android),3003(aid_inet)
+
+== mount visibility ==
+
+RUNTIME_CHECK_PASS
+
+== SSH login and sudo ==
+Warning: Permanently added '[127.0.0.1]:22580' (ED25519) to the list of known hosts.
+uid=60000(android) gid=60000(android) groups=60000(android),3003(aid_inet)
+x86_64
+PRETTY_NAME="Ubuntu 26.04 LTS"
+NAME="Ubuntu"
+VERSION_ID="26.04"
+VERSION="26.04 (Resolute Raccoon)"
+VERSION_CODENAME=resolute
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=resolute
+LOGO=ubuntu-logo
+uid=0(root) gid=0(root) groups=0(root)
+SSH_LOGIN_PASS
+
+== Stop and unmount ==
+## bootstrap/rootfs : do_stop
+## bootstrap/ubuntu : do_stop
+## core/emulator : do_stop
+## core/motd : do_stop
+## core/hosts : do_stop
+## core/hostname : do_stop
+## core/mnt : do_stop
+## core/net : do_stop
+## core/timezone : do_stop
+## core/su : do_stop
+## core/locale : do_stop
+## core/aid : do_stop
+## core/profile : do_stop
+## core/sudo : do_stop
+## core/unchroot : do_stop
+## core : do_stop
+## bootstrap : do_stop
+## extra : do_stop
+## extra/ssh : do_stop
+:: Stopping extra/ssh ... done
+Release resources ... done
+Unmounting partitions: 
+/sys ... done
+/proc ... done
+/dev/shm ... done
+/dev/pts ... done
+/dev ... done
+/ ... done
+
+== Restart and SSH ==
+RESTART_SSH_PASS
+
+== Tested build hashes (SHA-256) ==
+277b72daeb65b77cea60bcbe7d5329681495b5e8c4bcd3d31fc22ff9571afbb2  app/build/outputs/apk/debug/app-debug.apk
+04dbf443703211473dfffa9179b6f9c75bfb66a8f8f5bb65940e28a9193eef87  app/build/outputs/apk/release/app-release-unsigned.apk

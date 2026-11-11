@@ -8,7 +8,9 @@ before building. No manual copy or submodule initialization is needed.
 - `include/bootstrap/debian/debootstrap/scripts`: suite scripts for the vendored
   debootstrap implementation, including Ubuntu 26.04 LTS (`resolute`).
   Resolute uses the merged-/usr extraction path and receives security/updates
-  APT sources. Full Android deployment remains unvalidated; noble stays the default.
+  APT sources. Resolute bootstrap, APT, SSH and stop/restart are validated on an
+  Android 15 amd64 emulator; physical devices and its desktop remain untested.
+  Noble stays the default. See `docs/VALIDATION.md` for evidence and limits.
 
 The full environment and the four optional custom server/desktop components are
 tracked directly under `app/src/main/assets/env`. Their `EXTENDS` list explicitly

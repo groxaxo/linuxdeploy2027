@@ -59,7 +59,8 @@ can be re-signed to support in-place upgrades.
 
 ## Limits
 
-Runtime checks cover Ubuntu 24.04 amd64 on an emulator. ARM/ARM64/x86 zstd binaries
+Runtime checks cover Ubuntu 24.04 and 26.04 amd64 on emulators (see the
+26.04 follow-up below). ARM/ARM64/x86 zstd binaries
 were cross-compiled and packaged; physical ARM devices and their root-manager /
 SELinux policies were not tested. Jammy and optional custom meta-package flavors
 have loader regression coverage, not complete deployment coverage. Other inherited
@@ -84,7 +85,51 @@ Toolchain reference: [Android Gradle Plugin 8.13](https://developer.android.com/
 - Override files match their packaged asset copies. Resource/banner XML parses;
   README local file links resolve.
 
-This adds a selectable recipe, not a certification of Ubuntu 26.04 on Android.
-No full resolute deployment or new device instrumentation was run for this update.
-The runtime evidence above remains specific to Ubuntu 24.04 on the emulator.
-The newly built APKs have not been signed or uploaded as a new release.
+### Follow-up: local emulator runtime verification
+
+Source: `77c5ed7`. Host: `dsanke` (local Linux x86_64), OpenJDK 21,
+Android SDK/platform 35, build tools 35.0.0, KVM. Fresh isolated AVD
+`linuxdeploy27-resolute-test`, Google APIs API 35 x86_64 system image revision 9,
+Android 15, kernel `6.6.50-android15-8-g8adecb593e9b-ab12525588`.
+
+The disposable emulator used permissive SELinux and a test-only root daemon to
+supply app-level `su`. The initial glibc-built test client exited with SIGSYS (159)
+under the app's syscall filter; using a musl-built client fixed the fixture.
+The original five APK instrumentation tests then passed without changing app code.
+This helper is outside the repository and is not included in either APK.
+
+Validation used the CLI and native tools extracted by the debug APK, not host
+`debootstrap` or a prebuilt Ubuntu rootfs. The install used a new directory under
+`/data/local` with a separate mountpoint/profile, `DISTRIB=ubuntu`, `SUITE=resolute`,
+`ARCH=amd64`, `INCLUDE="bootstrap extra/ssh"`, native chroot and the official
+`http://archive.ubuntu.com/ubuntu/` mirror. Emulator DNS was `10.0.2.3`.
+
+- Debug, test and minified release APK builds plus lint: pass.
+- Four host tests and five original APK instrumentation tests: pass.
+- Fresh full Resolute deployment: pass; both debootstrap stages, core/user
+  configuration and OpenSSH package installation finish with exit status 0.
+- `/etc/os-release`: Ubuntu 26.04 LTS, codename `resolute`; native `amd64`.
+  Working glibc 2.43 and Python 3.14.4.
+- `dpkg --audit`: empty, exit 0. `apt-get update` with
+  `APT::Update::Error-Mode=any`: exit 0 for `resolute`, `resolute-security` and
+  `resolute-updates`. OpenSSH was fetched from the security repository.
+- SSH starts through `extra/ssh` on emulator loopback port 2222. An ADB forward
+  permits a real host SSH login as `android` using a disposable test key:
+  UID/GID 60000, Android internet group 3003, correct userspace and passwordless sudo.
+- `stop -u extra/ssh`: pass; SSH stops and every container mount is removed,
+  independently checked against `/proc/mounts`.
+- `start -m extra/ssh` followed by another SSH login and sudo: pass.
+- The minified release APK, signed only with the local debug/test key, installs
+  and opens Properties. Selecting `resolute`, leaving Properties, and reopening it
+  preserves the selection. Production release signing was not changed.
+
+[Runtime/test transcript](evidence/resolute-runtime.txt) ·
+[Release APK Properties screenshot](evidence/resolute-properties.png)
+
+No app or bootstrap fix was needed. This result validates this emulator/kernel
+combination, not physical ARM/ARM64 devices, enforcing SELinux/root-manager
+policies, older Android kernels, alternate storage types, or a Resolute desktop.
+The Ubuntu 24.04 LXDE/VNC evidence above remains specific to that release.
+The bootstrap initially installs the archive's base suite and configures updates;
+a successful repository refresh is not a claim that every base package has been
+upgraded to the latest security revision. No new APK release was uploaded.
