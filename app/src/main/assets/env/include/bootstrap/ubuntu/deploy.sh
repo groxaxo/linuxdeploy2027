@@ -2,7 +2,7 @@
 # Linux Deploy Component
 # (c) Anton Skshidlevsky <meefik@gmail.com>, GPLv3
 
-[ -n "${SUITE}" ] || SUITE="jammy"
+[ -n "${SUITE}" ] || SUITE="noble"
 
 if [ -z "${ARCH}" ]
 then
@@ -18,7 +18,7 @@ if [ -z "${SOURCE_PATH}" ]
 then
     case "$(get_platform ${ARCH})" in
     x86*) SOURCE_PATH="http://archive.ubuntu.com/ubuntu/" ;;
-    arm*) SOURCE_PATH="http://ports.ubuntu.com/" ;;
+    arm*) SOURCE_PATH="http://ports.ubuntu.com/ubuntu-ports/" ;;
     esac
 fi
 
@@ -37,7 +37,7 @@ apt_repository()
     echo "deb-src ${SOURCE_PATH} ${SUITE} main universe multiverse" >> "${CHROOT_DIR}/etc/apt/sources.list"
     # Add security updates repository
     case "${SUITE}" in
-        noble|jammy|focal|bionic|xenial|trusty)
+        questing|plucky|noble|jammy|focal|bionic|xenial|trusty)
             echo "deb ${SOURCE_PATH} ${SUITE}-security main universe multiverse" >> "${CHROOT_DIR}/etc/apt/sources.list"
             echo "deb ${SOURCE_PATH} ${SUITE}-updates main universe multiverse" >> "${CHROOT_DIR}/etc/apt/sources.list"
             ;;
@@ -60,6 +60,8 @@ cat <<EOF
 
    --suite="${SUITE}"
      Version of Linux distribution, supported versions:
+     - "questing" (25.10)
+     - "plucky" (25.04)
      - "noble" (24.04 LTS) - Supported until 2029
      - "jammy" (22.04 LTS) - Supported until 2027
      - "focal" (20.04 LTS) - Supported until 2025

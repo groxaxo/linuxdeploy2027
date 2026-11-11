@@ -1,88 +1,79 @@
-# Linux Deploy
-Copyright (C) 2012-2019  Anton Skshidlevsky, [GPLv3](https://github.com/meefik/linuxdeploy/blob/master/LICENSE)
-This application is open source software for quick and easy installation of the operating system (OS) GNU/Linux on your Android device.
-The application creates a disk image or a directory on a flash card or uses a partition or RAM, mounts it and installs an OS distribution. Applications of the new system are run in a chroot environment and working together with the Android platform. All changes made on the device are reversible, i.e. the application and components can be removed completely. Installation of a distribution is done by downloading files from official mirrors online over the internet. The application can run better with superuser rights (root).
-The program supports multi language interface. You can manage the process of installing the OS, and after installation, you can start and stop services of the new system (there is support for running your scripts) through the UI. The installation process is reported as text in the main application window. During the installation, the program will adjust the environment, which includes the base system, SSH server, VNC server and desktop environment. The program interface can also manage SSH and VNC settings.
-## Ubuntu Support (2025 Update)
+# Linux Deploy — Ubuntu fork
 
-This fork adds support for modern Ubuntu releases with improved deployment logic:
+Install and run GNU/Linux in a chroot on a **rooted Android device**. Based on
+[Linux Deploy](https://github.com/meefik/linuxdeploy), copyright © 2012–2019
+Anton Skshidlevsky, distributed under [GPLv3](LICENSE).
 
-### Supported Versions
+## Install
 
-- ✅ **Ubuntu 25.10 (Questing Quokka)**
-  - Latest stable Ubuntu release
-  - ARM64 and AMD64 architectures are recommended
+Download the signed APK from [Releases](https://github.com/groxaxo/linuxdeploy2025/releases).
+Allow installation from that source, open Linux Deploy, and grant your root manager's
+superuser request. Android 5.0 or later is required. Termux is **not required**.
 
-- ✅ **Ubuntu 25.04 (Plucky Puffin)**
-  - Recent Ubuntu release
-  - ARM64 and AMD64 architectures are recommended
+Fresh profiles default to **Ubuntu 24.04 LTS (noble)** and choose the native
+architecture and official Ubuntu mirror. Existing profiles keep their settings.
+Ubuntu 22.04 LTS (jammy) is also available. Older distribution choices are inherited
+from upstream; their presence does not mean their mirrors or releases are still supported.
 
-- ✅ **Ubuntu 24.04 LTS (Noble Numbat)** - Supported until 2029
-  - **Default version** - Recommended for new installations
-  - ARM64 and AMD64 architectures only (i386 not supported)
-  - Latest features and packages
-  
-- ✅ **Ubuntu 22.04 LTS (Jammy Jellyfish)** - Supported until 2027
-  - Full architecture support: armhf, arm64, i386, amd64
-  - Excellent stability and security updates
-  
-- ✅ **Ubuntu 20.04 LTS (Focal Fossa)** - Supported until 2025
-  - Full architecture support: armhf, arm64, i386, amd64
-  - Stable and well-tested
+1. Open Properties. Check the distribution, release, architecture and installation path.
+2. Use a disk image for shared storage. A directory installation needs a Linux filesystem
+   with Unix permissions (for example, a dedicated directory under `/data/local`).
+3. Enable SSH or a graphical desktop if needed; choose the ports and credentials.
+4. Choose **Menu → Install** and wait for installation to finish.
+5. Tap **START**, then connect over SSH/VNC. Tap **STOP** before removing an image.
 
-### Legacy Versions (Limited Support)
+A chroot shares Android's kernel; it does not boot its own kernel or systemd as PID 1.
+Root access, suitable kernel mount/chroot support and root-manager policy are required.
+The emulator validation and hardware limits are recorded in [docs/VALIDATION.md](docs/VALIDATION.md).
 
-- ⚠️ **Ubuntu 18.04 LTS (Bionic Beaver)** - EOL April 2023 (ESM available)
-- ⚠️ **Ubuntu 16.04 LTS (Xenial Xerus)** - EOL April 2021 (ESM available)
-- ⚠️ **Ubuntu 14.04 LTS (Trusty Tahr)** - EOL April 2019
-- ⚠️ **Ubuntu 12.04 LTS (Precise Pangolin)** - EOL April 2017 (armel support)
+## Build
 
-### Features
+Use JDK 17 or 21 and an Android SDK with platform 35 and build tools 35.0.0:
 
-- **Automatic security updates** - Security and update repositories are automatically configured
-- **Modern package support** - Access to the latest software packages
-- **ARM64 optimization** - Better performance on modern ARM devices
-- **Improved compatibility** - Enhanced apt configuration for Android chroot environments
-- **Easy installation** - Simply select Ubuntu from the distribution list and choose your preferred version
-
-### Architecture Compatibility
-
-| Ubuntu Version | armhf | arm64 | i386 | amd64 | armel |
-|---------------|-------|-------|------|-------|-------|
-| Questing (25.10) | ✅ | ✅ | ❌ | ✅ | ❌ |
-| Plucky (25.04) | ✅ | ✅ | ❌ | ✅ | ❌ |
-| Noble (24.04) | ✅    | ✅    | ❌   | ✅    | ❌    |
-| Jammy (22.04) | ✅    | ✅    | ✅   | ✅    | ❌    |
-| Focal (20.04) | ✅    | ✅    | ✅   | ✅    | ❌    |
-| Bionic (18.04)| ✅    | ✅    | ✅   | ✅    | ❌    |
-| Xenial (16.04)| ✅    | ✅    | ✅   | ✅    | ❌    |
-| Trusty (14.04)| ✅    | ✅    | ✅   | ✅    | ❌    |
-| Precise (12.04)| ✅   | ❌    | ✅   | ✅    | ✅    |
-
-**Note:** Ubuntu 24.04 (Noble) and later versions do not support i386 architecture.
-
-## Building from Source
-
-This fork includes customized deployment scripts in the `custom_env/` directory. Before building, apply the custom Ubuntu deployment scripts:
-
-```bash
-# Apply custom Ubuntu deployment scripts
-mkdir -p app/src/main/assets/env/include/bootstrap/ubuntu/
-cp custom_env/include/bootstrap/ubuntu/* app/src/main/assets/env/include/bootstrap/ubuntu/
-mkdir -p app/src/main/assets/env/include/bootstrap/debian/debootstrap/scripts/
-cp custom_env/include/bootstrap/debian/debootstrap/scripts/* app/src/main/assets/env/include/bootstrap/debian/debootstrap/scripts/
+```sh
+git clone https://github.com/groxaxo/linuxdeploy2025.git
+cd linuxdeploy2025
+export ANDROID_HOME=/path/to/android-sdk
+./gradlew assembleDebug assembleRelease lint
+python3 -m unittest discover -s tests -v
 ```
 
-Alternatively, you can use rsync for more reliable synchronization:
+The pinned Gradle wrapper is 8.14.3 and Android Gradle Plugin is 8.13.2.
+Debug output: `app/build/outputs/apk/debug/app-debug.apk`.
+Release output: `app/build/outputs/apk/release/app-release-unsigned.apk`.
+Sign release APKs with a private keystore using the SDK's `apksigner`; keys and
+passwords must stay outside the repository. An installed APK can only be updated
+with an APK signed by the same key.
 
-```bash
-rsync -av custom_env/include/bootstrap/ubuntu/ app/src/main/assets/env/include/bootstrap/ubuntu/
-rsync -av custom_env/include/bootstrap/debian/debootstrap/scripts/ app/src/main/assets/env/include/bootstrap/debian/debootstrap/scripts/
+The compile SDK is modern, while target SDK stays at **28** because the app executes
+its extracted tools. Raising the target requires redesigning that execution model.
+This is a sideloaded root utility, not a Google Play publication build.
+
+The CLI environment is fully vendored under `app/src/main/assets/env`; there are no
+required submodules. Gradle synchronizes the maintained Ubuntu/debootstrap overrides
+from `custom_env` automatically before packaging.
+
+## Native tools and tests
+
+The APK bundles static zstd 1.5.7 executables for ARM, ARM64, x86 and x86_64 so modern
+Ubuntu `.deb` files can be extracted without another Android app. Rebuild them with:
+
+```sh
+export ANDROID_NDK_HOME=/path/to/android-ndk
+bash contrib/zstd/build.sh
 ```
 
-See `custom_env/README.md` for details about the customizations.
+That script verifies the source archive SHA-256 and retains the upstream BSD license.
+Other native tools are inherited from Linux Deploy.
 
-Donations:
+On a disposable rooted emulator with working app-level `su`, run:
 
-- E-Money: <https://meefik.github.io/donate>
-- Google Play: <https://play.google.com/store/apps/details?id=ru.meefik.donate>
+```sh
+ANDROID_SERIAL=emulator-5554 ./gradlew connectedDebugAndroidTest
+```
+
+`adb root` alone does not give applications access to `su`. The integration tests
+exercise real APK asset extraction, the CLI success/failure path, bundled zstd, and
+configuration round trips. Host tests exercise the actual component loader for all
+four custom Ubuntu server/desktop profiles. CI builds debug/release APKs and runs
+lint and the host tests; emulator results are recorded separately.

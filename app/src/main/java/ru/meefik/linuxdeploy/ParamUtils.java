@@ -11,6 +11,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -31,10 +32,14 @@ class ParamUtils {
             String line;
             while ((line = br.readLine()) != null) {
                 if (!line.startsWith("#") && !line.isEmpty()) {
-                    String[] pair = line.split("=");
-                    String key = pair[0];
-                    String value = pair[1];
-                    map.put(key, value.replaceAll("\"", ""));
+                    String[] pair = line.split("=", 2);
+                    if (pair.length != 2) continue;
+                    String key = pair[0].trim();
+                    String value = pair[1].trim();
+                    if (value.length() >= 2 && value.startsWith("\"") && value.endsWith("\"")) {
+                        value = value.substring(1, value.length() - 1);
+                    }
+                    map.put(key, value);
                 }
             }
         } catch (IOException e) {
@@ -83,7 +88,7 @@ class ParamUtils {
             if (resourceId > 0) defaultValue = c.getString(resourceId);
             Object value = source.get(key);
             if (value == null) value = defaultValue;
-            target.put(key.toUpperCase(), fixOutputParam(c, key, value.toString()));
+            target.put(key.toUpperCase(Locale.ROOT), fixOutputParam(c, key, value.toString()));
         }
         for (Map.Entry<String, ?> entry : source.entrySet()) {
             String key = entry.getKey();
@@ -115,7 +120,7 @@ class ParamUtils {
             String key = entry.getKey();
             if (!key.matches("^[A-Z0-9_]+$")) continue;
             String value = entry.getValue();
-            String lowerKey = key.toLowerCase();
+            String lowerKey = key.toLowerCase(Locale.ROOT);
             if (params.contains(lowerKey)) {
                 if (value.equals("true") || value.equals("false")) {
                     prefEditor.putBoolean(lowerKey, fixInputParam(c, lowerKey, value).equals("true"));

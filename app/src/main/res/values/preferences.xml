@@ -30,10 +30,10 @@
     <string name="logger" translatable="false">false</string>
     <string name="logfile" translatable="false">output.log</string>
     <string name="chroot_dir" translatable="false">/data/local/mnt</string>
-    <string name="distrib" translatable="false">debian</string>
-    <string name="suite" translatable="false">@string/debian_suite</string>
-    <string name="arch" translatable="false">@string/arm_debian_arch</string>
-    <string name="source_path" translatable="false">@string/arm_debian_source_path</string>
+    <string name="distrib" translatable="false">ubuntu</string>
+    <string name="suite" translatable="false">@string/ubuntu_suite</string>
+    <string name="arch" translatable="false"></string>
+    <string name="source_path" translatable="false"></string>
     <string name="target_type" translatable="false">file</string>
     <string name="target_path" translatable="false">@string/target_path_file</string>
     <string name="target_path_file" translatable="false">${EXTERNAL_STORAGE}/linux.img</string>

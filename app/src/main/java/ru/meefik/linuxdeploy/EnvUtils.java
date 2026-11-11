@@ -199,7 +199,8 @@ public class EnvUtils {
             pb.directory(new File(PrefStore.getEnvDir(c)));
             // Map<String, String> env = pb.environment();
             // env.put("PATH", PrefStore.getPath(c) + ":" + env.get("PATH"));
-            if (PrefStore.isDebugMode(c)) pb.redirectErrorStream(true);
+            // Always drain stderr too: a full error pipe can stall a deployment.
+            pb.redirectErrorStream(true);
             Process process = pb.start();
 
             try (DataOutputStream os = new DataOutputStream(process.getOutputStream())) {
@@ -207,12 +208,13 @@ public class EnvUtils {
 //                final InputStream stderr = process.getErrorStream();
 
 //                params.add(0, "LD_LIBRARY_PATH=" + PrefStore.getLibsDir(c) + ":$LD_LIBRARY_PATH");
-                params.add(0, "PATH=" + PrefStore.getBinDir(c) + ":$PATH");
+                List<String> commands = new ArrayList<>(params);
+                commands.add(0, "PATH=" + PrefStore.getBinDir(c) + ":$PATH");
                 if (PrefStore.isTraceMode(c))
-                    params.add(0, "set -x");
-                params.add("exit $?");
+                    commands.add(0, "set -x");
+                commands.add("exit $?");
 
-                for (String cmd : params) {
+                for (String cmd : commands) {
                     os.writeBytes(cmd + "\n");
                 }
                 os.flush();
@@ -295,7 +297,7 @@ public class EnvUtils {
 
         List<String> params = new ArrayList<>();
         // install busybox applets
-        params.add("busybox --install -s " + PrefStore.getBinDir(c));
+        params.add("busybox --install -s " + PrefStore.getBinDir(c) + " || exit $?");
         // replace shell interpreter in some scripts
         String[] scripts = {
                 PrefStore.getBinDir(c) + "/websocket.sh",
@@ -306,7 +308,7 @@ public class EnvUtils {
         for (String f : scripts) {
             params.add("sed -i 's|^#!/.*|#!" + PrefStore.getShell(c) + "|' " + f);
         }
-        exec(c, "sh", params);
+        if (!exec(c, "sh", params)) return false;
 
         // update cli.conf
         if (!PrefStore.getSettingsConfFile(c).exists()) PrefStore.dumpSettings(c);
@@ -378,7 +380,9 @@ public class EnvUtils {
         else args = " " + args;
         params.add("printf '>>> " + cmd + "\n'");
         params.add(PrefStore.getBinDir(c) + "/linuxdeploy " + opts + cmd + args);
+        params.add("cli_status=$?");
         params.add("printf '<<< " + cmd + "\n'");
+        params.add("exit \"$cli_status\"");
         return exec(c, "su", params);
     }
 

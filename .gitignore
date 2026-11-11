@@ -44,3 +44,10 @@ captures/
 
 # Windows clutter
 Thumbs.db
+
+# Local tooling and Python test caches
+.serena/
+__pycache__/
+*.pyc
+*.keystore
+*.p12

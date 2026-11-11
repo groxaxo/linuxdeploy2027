@@ -92,7 +92,7 @@ public class RepositoryProfileAdapter extends RecyclerView.Adapter<RepositoryPro
                 }
             }
 
-            icon.setImageResource(iconRes);
+            icon.setImageBitmap(android.graphics.BitmapFactory.decodeResource(view.getResources(), iconRes));
             title.setText(repositoryProfile.getProfile());
             if (repositoryProfile.getDescription() != null && !repositoryProfile.getDescription().isEmpty())
                 subTitle.setText(repositoryProfile.getDescription());

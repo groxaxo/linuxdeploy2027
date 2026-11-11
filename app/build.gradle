@@ -1,17 +1,20 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion '29.0.2'
+    namespace 'ru.meefik.linuxdeploy'
+    compileSdk 35
+
+    buildFeatures { buildConfig true }
 
     defaultConfig {
         applicationId 'ru.meefik.linuxdeploy'
         minSdkVersion 21
         // API 28 must be frozen for binary execution
         targetSdkVersion 28
-        versionCode 259
-        versionName "2.6.0"
+        versionCode 260
+        versionName "2.6.1"
         vectorDrawables.useSupportLibrary true
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
     buildTypes {
         release {
@@ -23,6 +26,8 @@ android {
     lintOptions {
         disable 'MissingTranslation'
         disable 'ExtraTranslation'
+        // Sideloaded root utility: API 28 permits executing extracted binaries.
+        disable 'ExpiredTargetSdkVersion'
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -43,6 +48,8 @@ task syncUbuntuDebootstrapScripts(type: Copy) {
 preBuild.dependsOn syncUbuntuBootstrap, syncUbuntuDebootstrapScripts
 
 dependencies {
+    androidTestImplementation 'androidx.test:runner:1.6.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
     implementation 'com.google.android.material:material:1.1.0'
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.browser:browser:1.2.0'

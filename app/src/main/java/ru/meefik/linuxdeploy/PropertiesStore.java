@@ -26,6 +26,14 @@ class PropertiesStore extends ParamUtils {
     @Override
     public String fixOutputParam(Context c, String key, String value) {
         switch (key) {
+            case "arch":
+            case "source_path":
+                if (value.isEmpty()) {
+                    int id = PrefStore.getResourceId(c,
+                            PrefStore.getArch() + "_" + get(c, "distrib") + "_" + key, "string");
+                    if (id > 0) value = c.getString(id);
+                }
+                break;
             case "user_password":
                 if (value.isEmpty()) value = PrefStore.generatePassword();
                 break;
