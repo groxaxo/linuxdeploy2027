@@ -1,6 +1,6 @@
 # Validation — 2026-11-11
 
-Source baseline: `2bcedf2` on `groxaxo/linuxdeploy2025`.
+Source baseline: `2bcedf2` on `groxaxo/linuxdeploy2027`.
 Build host: Linux x86_64, OpenJDK 21, Android SDK 35, NDK 28.2.13676358.
 
 ## Automated checks

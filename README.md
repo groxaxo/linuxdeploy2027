@@ -1,4 +1,4 @@
-# Linux Deploy — Ubuntu fork
+# linuxdeploy2027
 
 Install and run GNU/Linux in a chroot on a **rooted Android device**. Based on
 [Linux Deploy](https://github.com/meefik/linuxdeploy), copyright © 2012–2019
@@ -6,7 +6,7 @@ Anton Skshidlevsky, distributed under [GPLv3](LICENSE).
 
 ## Install
 
-Download the signed APK from [Releases](https://github.com/groxaxo/linuxdeploy2025/releases).
+Download the signed APK from [Releases](https://github.com/groxaxo/linuxdeploy2027/releases).
 Allow installation from that source, open Linux Deploy, and grant your root manager's
 superuser request. Android 5.0 or later is required. Termux is **not required**.
 
@@ -31,8 +31,8 @@ The emulator validation and hardware limits are recorded in [docs/VALIDATION.md]
 Use JDK 17 or 21 and an Android SDK with platform 35 and build tools 35.0.0:
 
 ```sh
-git clone https://github.com/groxaxo/linuxdeploy2025.git
-cd linuxdeploy2025
+git clone https://github.com/groxaxo/linuxdeploy2027.git
+cd linuxdeploy2027
 export ANDROID_HOME=/path/to/android-sdk
 ./gradlew assembleDebug assembleRelease lint
 python3 -m unittest discover -s tests -v
