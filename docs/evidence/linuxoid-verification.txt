@@ -1,0 +1,49 @@
+Linuxoid 0.1.0 verification — 2026-11-12
+Local host: dsanke. Android 15/API 35 x86_64 emulator, kernel 6.6.50.
+SELinux permissive with an external, test-only su daemon. This daemon is not packaged.
+
+Eight JVM tests passed. Debug/release/test builds and Android lint passed.
+Fresh Ubuntu Base installs covered minimal 26.04, SSH 22.04, minimal 24.04 and desktop 26.04.
+Later terminal/desktop fixes were retested against retained disposable workspaces.
+Signed release UI: creation dialog installed minimal Ubuntu 26.04.1; terminal typed input,
+username, architecture, OS release, sudo and job_control:on were visually verified.
+VNC: authenticated RFB 3.8, 1280x800 framebuffer captured; keyboard input ran commands
+in LXTerminal; Ubuntu 26.04.1, UID/GID 60000 and sudo output are visible.
+
+APK SHA-256: 81cae59189d5f209a998ef2fb9778b098ff4e8a33dbba9e1280dd8855da200be
+
+== Signed release PTY/job-control/overwrite/stop-restart test ==
+
+io.groxaxo.linuxoid.WorkspaceTest:.
+
+Time: 4.178
+
+OK (1 test)
+
+
+
+== Desktop idempotent start, strict RFB protocol, stop-restart test ==
+
+io.groxaxo.linuxoid.WorkspaceTest:.
+
+Time: 5.429
+
+OK (1 test)
+
+
+
+== Real SSH password login and sudo ==
+Warning: Permanently added '[127.0.0.1]:22581' (ED25519) to the list of known hosts.
+uid=60000(linuxoid) gid=60000(linuxoid) groups=60000(linuxoid),3003(android_inet)
+uid=0(root) gid=0(root) groups=0(root)
+Ubuntu 22.04.5 LTS
+LINUXOID_SSH_PASSWORD_PASS
+
+== Desktop visual follow-up (logind agent disabled) ==
+Stopping processes in this Ubuntu workspace
+Stopped. All workspace mounts released.
+
+New Xtigervnc server 'localhost:15 (linuxoid)' on port 5915 for display :15.
+Use xtigervncviewer -SecurityTypes VncAuth -passwd /home/linuxoid/.config/tigervnc/passwd :15 to connect to the VNC server.
+
+Workspace running.

@@ -51,3 +51,6 @@ __pycache__/
 *.pyc
 *.keystore
 *.p12
+
+# Native Android intermediates
+.cxx/

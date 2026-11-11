@@ -1,162 +1,112 @@
-<p align="center">
-  <img src="docs/assets/banner.svg" alt="linuxdeploy2027 — Your pocket. Your penguin. Your rules. A neon terminal connected to an Android phone." width="100%">
-</p>
+<p align="center"><img src="docs/assets/linuxoid-banner.svg" alt="Linuxoid — A little phone. A whole Linux world." width="100%"></p>
 
-<h1 align="center">linuxdeploy2027</h1>
-<p align="center"><strong>Your pocket. Your penguin. Your rules.</strong></p>
-<p align="center">A GNU/Linux userspace on your rooted Android device. Bring your own shell obsession.</p>
+<h1 align="center">Linuxoid</h1>
+<p align="center"><strong>Real Ubuntu. Pocket-sized possibilities.</strong></p>
+<p align="center">An independent Android app for minimal, terminal and desktop Ubuntu workspaces on a rooted phone.</p>
 
 <p align="center">
-  <a href="https://github.com/groxaxo/linuxdeploy2027/releases"><img alt="Download APK" src="https://img.shields.io/badge/Download-APK-78f0b5?style=for-the-badge&amp;logo=android&amp;logoColor=white"></a>
-  <a href="https://github.com/groxaxo/linuxdeploy2027/actions/workflows/android.yml"><img alt="Android build status" src="https://github.com/groxaxo/linuxdeploy2027/actions/workflows/android.yml/badge.svg"></a>
-  <a href="LICENSE"><img alt="License: GPLv3" src="https://img.shields.io/badge/License-GPLv3-a78bfa?style=flat-square"></a>
-  <img alt="Android 5.0 or newer; root required" src="https://img.shields.io/badge/Android-5.0%2B%20%7C%20root%20required-67d4ff?style=flat-square">
+  <a href="https://github.com/groxaxo/linuxdeploy2027/actions/workflows/linuxoid.yml"><img alt="Linuxoid build" src="https://github.com/groxaxo/linuxdeploy2027/actions/workflows/linuxoid.yml/badge.svg"></a>
+  <img alt="Android 8 or newer" src="https://img.shields.io/badge/Android-8.0%2B-214d38?style=flat-square">
+  <img alt="Root required" src="https://img.shields.io/badge/Root-required-214d38?style=flat-square">
+  <a href="LICENSE"><img alt="Application license GPLv3" src="https://img.shields.io/badge/App-GPLv3-214d38?style=flat-square"></a>
 </p>
+<p align="center"><a href="#pick-your-starting-point">Profiles</a> · <a href="#install">Install</a> · <a href="#build">Build</a> · <a href="docs/LINUXOID_VALIDATION.md">Test evidence</a> · <a href="LEGACY.md">Legacy Linux Deploy</a></p>
+
+## A fresh shell for your next rabbit hole
+
+Linuxoid turns a rooted Android phone into a persistent Ubuntu workbench.
+Start with a small official Ubuntu Base image, open a real terminal, install
+packages with APT, or launch an LXDE desktop over VNC. Your files stay in the
+workspace between starts. Termux is not required.
+
+This is a **new Android application and deployment engine**, with its own UI,
+profile format, image downloader and chroot lifecycle. Its application ID is
+`io.groxaxo.linuxoid`; it can coexist with Linux Deploy. The legacy app remains
+in `app/` with its history and attribution intact. Linuxoid does not rename or
+paraphrase its classes or CLI framework.
+
+## Pick your starting point
+
+| Profile | What you get |
+| --- | --- |
+| **Minimal** | Ubuntu Base, CA certificates, a regular Linux user, sudo and the in-app terminal. No SSH or GUI server. |
+| **Terminal + SSH** | Minimal plus OpenSSH, with optional access from your local network. |
+| **Desktop** | SSH plus LXDE, LXTerminal and TigerVNC. Connect a VNC viewer for the GUI. |
+
+The terminal uses a native PTY: ANSI output, resizing, arrows, Tab, Escape and
+Control input work inside the app. Desktop mode serves a genuine Ubuntu desktop;
+a VNC viewer is required and is not bundled.
+
+**Ubuntu 26.04 LTS (`resolute`), 24.04 LTS (`noble`) and 22.04 LTS (`jammy`)** are
+the recommended series. The picker also reads Canonical's
+[Ubuntu Base catalogue](https://cdimage.ubuntu.com/ubuntu-base/releases/) and
+chooses the newest point image available for your phone's native architecture.
+For 26.04, that currently includes **26.04.1 LTS**. Every image is checked against
+Canonical's HTTPS SHA-256 manifest before extraction.
+
+A listed release still needs a matching image and a compatible Android kernel.
+Older entries may be unsupported or need archived mirrors. The tested combinations
+and physical-device limits are recorded in [the validation report](docs/LINUXOID_VALIDATION.md).
+
+## A look inside
 
 <p align="center">
-  <a href="#boot-sequence">Install</a> ·
-  <a href="#choose-your-userspace">Distributions</a> ·
-  <a href="#screens-or-it-didnt-happen">Screenshots</a> ·
-  <a href="#build">Build from source</a> ·
-  <a href="docs/VALIDATION.md">Validation notes</a>
+  <img src="docs/evidence/linuxoid-home.png" alt="Linuxoid's original Android workspace dashboard" width="32%">
+  <img src="docs/evidence/linuxoid-create.png" alt="Choose Minimal, Terminal with SSH or Desktop when creating Ubuntu" width="32%">
+  <img src="docs/evidence/linuxoid-terminal.png" alt="Linuxoid's in-app terminal running Ubuntu 26.04.1 LTS" width="32%">
 </p>
 
-## Small device. Big terminal energy.
+<p align="center"><img src="docs/evidence/linuxoid-desktop.png" alt="Actual LXDE desktop over authenticated VNC, with Ubuntu 26.04.1, user identity and sudo shown in LXTerminal" width="100%"></p>
 
-Turn a rooted Android phone or tablet into a portable Linux workbench.
-linuxdeploy2027 installs a GNU/Linux filesystem in a **chroot**, with Android's
-kernel doing the heavy lifting. Fire up SSH, tinker with packages, or connect to
-a graphical desktop over VNC. Termux is **not required**.
+## Install
 
-- **Shell people welcome.** A Linux userspace for command-line tools, scripts and experiments.
-- **Desktop optional.** Configure SSH, VNC and a desktop when your project wants pixels.
-- **Pick your habitat.** Use a disk image or a directory on a suitable Linux filesystem.
-- **Modern Ubuntu on the menu.** Ubuntu 26.04 LTS (`resolute`) joins 24.04 and 22.04.
-- **Batteries in the APK.** Vendored CLI tools and bundled zstd extraction for modern Ubuntu packages.
+Linuxoid is currently a **0.1 preview**. Build the APK below or use the
+`Linuxoid-apks-and-checks` artifact from [Linuxoid Actions](https://github.com/groxaxo/linuxdeploy2027/actions/workflows/linuxoid.yml).
+Older APKs in the repository's Releases belong to the legacy Linux Deploy app.
 
-> **Root is part of the deal.** You need Android 5.0+, a working root manager,
-> and a kernel/root policy that permits mounts and chroot. The chroot shares the
-> Android kernel; it does not boot a separate kernel or run systemd as PID 1.
+1. Install the Linuxoid APK and grant your root manager's superuser request when prompted.
+2. Tap **Create workspace**, choose an Ubuntu release and select Minimal, Terminal + SSH, or Desktop.
+3. For SSH/Desktop, set a workspace password. Enable network SSH only if you want it.
+4. Choose **Install Ubuntu**. Linuxoid downloads, checks, extracts and configures the image.
+5. Open **Terminal**, or connect a VNC viewer using **Open desktop**. Use **Stop** before shutting down the workspace.
 
-## Boot sequence
+SSH uses the user `linuxoid` and the port shown on its workspace card. It listens
+on localhost unless network access was selected. VNC stays on localhost; use an
+SSH tunnel from another computer. VNC authentication uses the first eight
+characters of the workspace password.
 
-**[Download the signed APK →](https://github.com/groxaxo/linuxdeploy2027/releases)**
+Workspace files live in private, separately named directories under `/data/local/linuxoid`.
+Install refuses to overwrite an existing destination, and incomplete installs
+retain their files. Existing Linux Deploy containers are untouched.
 
-Allow installation from that source, open Linux Deploy, and grant your root
-manager's superuser request.
-
-1. Open **Properties** and check distribution, release, architecture and installation path.
-2. Choose your storage. Use a **disk image for shared storage**. A directory install
-   needs Unix permissions on a Linux filesystem, such as a dedicated directory under `/data/local`.
-3. Enable **SSH** or a **graphical desktop** if wanted, then set your ports and credentials.
-4. Choose **Menu → Install** and let the bootstrap finish.
-5. Tap **START**, connect over SSH/VNC, and make yourself at home. Tap **STOP** before removing an image.
-
-Fresh profiles default to **Ubuntu 24.04 LTS (`noble`)**, the native architecture
-and the official Ubuntu mirror. Existing profiles keep their settings.
-To try 26.04 LTS, choose **Ubuntu → resolute** in Properties using a fresh profile
-and a separate installation path.
-
-**Upgrading from an older APK?** The 2.6.1 release uses a new signing key and
-cannot update the old `ubunapk` v1.0.2 APK in place. Export your profiles and
-preserve container files before uninstalling that older app.
-[Read the signing and installation notes](docs/VALIDATION.md#signing-and-installation-compatibility).
-
-## Choose your userspace
-
-### Ubuntu LTS roster
-
-| Release | Suite in Properties | Project status |
-| --- | --- | --- |
-| **Ubuntu 26.04 LTS — Resolute Raccoon** | `resolute` | Bootstrap, APT, SSH and stop/restart validated on an amd64 emulator; desktop not yet tested |
-| **Ubuntu 24.04 LTS — Noble Numbat** | `noble` | Default; deployment, SSH and LXDE/VNC validated on an amd64 emulator |
-| **Ubuntu 22.04 LTS — Jammy Jellyfish** | `jammy` | Available; optional server/desktop component loading has regression coverage |
-
-The latest Ubuntu LTS point release is **[26.04.1](https://lists.ubuntu.com/archives/ubuntu-announce/2026-August/000326.html)**.
-Point releases use the same `resolute` suite; bootstrap pulls packages from that
-suite's repositories, rather than installing a point-release ISO.
-See [Ubuntu's 26.04 release notes](https://documentation.ubuntu.com/release-notes/26.04/)
-for upstream requirements. An upstream release does not guarantee compatibility
-with an older Android kernel. Use a compatible architecture and check the
-[project's tested limits](docs/VALIDATION.md#limits).
-
-### More rabbit holes
-
-The inherited distribution menu also includes **Alpine, Arch, CentOS, Debian,
-Fedora, Kali and Slackware**, plus **Docker** and **rootfs archive** installation
-choices. Older Ubuntu suites remain in the selector too. These are inherited
-options: availability in the menu does not certify current mirrors, release
-support or Android compatibility. Check the distribution's lifecycle before diving in.
-
-## Screens or it didn't happen
-
-An actual Ubuntu 24.04 LXDE session over VNC, plus the Android app that launches it.
-Captured during emulator validation; these are not Ubuntu 26.04 results.
-
-<p align="center">
-  <img src="docs/evidence/lxde-vnc.png" alt="Validated Ubuntu 24.04 LXDE desktop over VNC, with LXTerminal showing the deployed user's identity" width="67%">
-  <img src="docs/evidence/release-main.png" alt="Linux Deploy Android main screen from the signed release APK" width="27%">
-</p>
+Ubuntu shares Android's kernel: this is a chroot, so it does not boot its own
+kernel or systemd as PID 1. A functioning root manager and compatible mount,
+execution and SELinux policy are required.
 
 ## Build
 
-Use JDK 17 or 21 and an Android SDK with platform 35 and build tools 35.0.0:
+Use JDK 21, Android SDK 35/build-tools 35.0.0, NDK 28.2.13676358 and CMake 3.22.1:
 
 ```sh
 git clone https://github.com/groxaxo/linuxdeploy2027.git
 cd linuxdeploy2027
 export ANDROID_HOME=/path/to/android-sdk
-./gradlew assembleDebug assembleRelease lint
-python3 -m unittest discover -s tests -v
+./gradlew :linuxoid:assembleDebug :linuxoid:assembleRelease \
+  :linuxoid:testDebugUnitTest :linuxoid:lintDebug
 ```
 
-The pinned Gradle wrapper is 8.14.3 and Android Gradle Plugin is 8.13.2.
-Debug output: `app/build/outputs/apk/debug/app-debug.apk`.
-Release output: `app/build/outputs/apk/release/app-release-unsigned.apk`.
-Sign release APKs with a private keystore using the SDK's `apksigner`; keys and
-passwords must stay outside the repository. An installed APK can only be updated
-with an APK signed by the same key.
+Installable development APK:
+`linuxoid/build/outputs/apk/debug/linuxoid-debug.apk`.
+Release output is unsigned until signed with your private key.
+See [Linuxoid development notes](linuxoid/README.md) for architecture, signing and
+opt-in emulator tests.
 
-The compile SDK is modern, while target SDK stays at **28** because the app executes
-its extracted tools. Raising the target requires redesigning that execution model.
-This is a sideloaded root utility, not a Google Play publication build.
+## Original app. Honest dependencies.
 
-The CLI environment is fully vendored under `app/src/main/assets/env`; there are no
-required submodules. Gradle synchronizes the maintained Ubuntu/debootstrap overrides
-from `custom_env` automatically before packaging.
+Linuxoid's new application and engine sources use [GPLv3](LICENSE). BusyBox
+remains GPLv2, xterm.js remains MIT, and Ubuntu packages keep their own licenses.
+Their authorship has not been relabeled. Matching BusyBox source/configuration,
+patches and build scripts are included. See [third-party notices](linuxoid/NOTICE.md).
 
-## Native tools and tests
-
-The APK bundles static zstd 1.5.7 executables for ARM, ARM64, x86 and x86_64 so modern
-Ubuntu `.deb` files can be extracted without another Android app. Rebuild them with:
-
-```sh
-export ANDROID_NDK_HOME=/path/to/android-ndk
-bash contrib/zstd/build.sh
-```
-
-That script verifies the source archive SHA-256 and retains the upstream BSD license.
-Other native tools are inherited from Linux Deploy.
-
-On a disposable rooted emulator with working app-level `su`, run:
-
-```sh
-ANDROID_SERIAL=emulator-5554 ./gradlew connectedDebugAndroidTest
-```
-
-`adb root` alone does not give applications access to `su`. The integration tests
-exercise real APK asset extraction, the CLI success/failure path, bundled zstd, and
-configuration round trips. Host tests exercise the actual component loader for all
-four custom Ubuntu server/desktop profiles. CI builds debug/release APKs and runs
-lint and the host tests; emulator results are recorded separately.
-
-## Standing on the shoulders of penguins
-
-Based on [Linux Deploy](https://github.com/meefik/linuxdeploy), copyright
-© 2012–2019 Anton Skshidlevsky. Distributed under the [GNU GPLv3](LICENSE).
-Upstream history lives in [CHANGELOG.md](CHANGELOG.md); fork changes are in
-[CHANGES.md](CHANGES.md).
-
-Found a gremlin? [Open an issue](https://github.com/groxaxo/linuxdeploy2027/issues)
-with your Android version, architecture, root manager, selected suite and relevant
-logs. Redact passwords and other secrets before posting.
+The previous Linux Deploy documentation and upstream credits are preserved in
+[LEGACY.md](LEGACY.md). Its emulator results are separate from Linuxoid's results.

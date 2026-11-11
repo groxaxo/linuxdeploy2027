@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="420" viewBox="0 0 1280 420" role="img" aria-labelledby="title desc">
+<title id="title">Linuxoid — A little phone. A whole Linux world.</title><desc id="desc">A green terminal and minimal Ubuntu workspaces on a warm off-white canvas.</desc>
+<defs><pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="#214d38" opacity=".08"/></pattern></defs>
+<rect width="1280" height="420" rx="24" fill="#f6f7f2"/><rect width="1280" height="420" rx="24" fill="url(#grid)"/>
+<g font-family="Arial, sans-serif"><rect x="55" y="48" width="55" height="55" rx="15" fill="#214d38"/><path d="M70 64L81 76L70 88M88 89H99" stroke="#c6f59a" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="126" y="88" font-size="37" font-weight="700" fill="#172a1f">Linuxoid</text>
+<text x="55" y="170" font-size="39" font-weight="700" fill="#172a1f">A little phone.</text><text x="55" y="218" font-size="39" font-weight="700" fill="#172a1f">A whole Linux world.</text>
+<text x="57" y="257" font-size="17" fill="#667469">Your Ubuntu workspace, built for your pocket.</text>
+<g font-size="12" font-weight="600" fill="#214d38"><rect x="55" y="297" width="98" height="33" rx="16" fill="#e4edde"/><text x="76" y="318">MINIMAL</text><rect x="165" y="297" width="110" height="33" rx="16" fill="#e4edde"/><text x="185" y="318">TERMINAL</text><rect x="287" y="297" width="108" height="33" rx="16" fill="#e4edde"/><text x="307" y="318">DESKTOP</text></g>
+<text x="57" y="377" font-size="11" letter-spacing="2" fill="#667469">ROOTED ANDROID · OFFICIAL UBUNTU BASE · NATIVE CHROOT</text></g>
+<g transform="translate(688 55)"><rect width="535" height="310" rx="22" fill="#142a20"/><rect x="18" y="18" width="499" height="274" rx="12" fill="#0d1614"/>
+<circle cx="39" cy="40" r="4" fill="#dc8568"/><circle cx="54" cy="40" r="4" fill="#dbbf75"/><circle cx="69" cy="40" r="4" fill="#a9d98b"/>
+<g font-family="monospace" font-size="17"><text x="36" y="93" fill="#c6f59a">linuxoid@ubuntu:~$ <tspan fill="#edf4e9">uname -s</tspan></text><text x="36" y="123" fill="#b5c7b9">Linux</text><text x="36" y="168" fill="#c6f59a">linuxoid@ubuntu:~$ <tspan fill="#edf4e9">whoami</tspan></text><text x="36" y="198" fill="#b5c7b9">linuxoid</text><text x="36" y="243" fill="#c6f59a">linuxoid@ubuntu:~$ ▌</text></g></g>
+</svg>

@@ -1,0 +1,35 @@
+plugins { id 'com.android.application' }
+android {
+    namespace 'io.groxaxo.linuxoid'
+    compileSdk 35
+    ndkVersion '28.2.13676358'
+    defaultConfig {
+        applicationId 'io.groxaxo.linuxoid'
+        minSdk 26
+        targetSdk 35
+        versionCode 1
+        versionName '0.1.0'
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+        externalNativeBuild { cmake { cppFlags '' } }
+    }
+    externalNativeBuild { cmake { path 'src/main/cpp/CMakeLists.txt'; version '3.22.1' } }
+    buildTypes { release { minifyEnabled false } }
+    compileOptions { sourceCompatibility JavaVersion.VERSION_11; targetCompatibility JavaVersion.VERSION_11 }
+    sourceSets.main.assets.srcDir layout.buildDirectory.dir('generated/toolAssets')
+}
+tasks.register('bundleLinuxoidTools', Copy) {
+    ['armhf', 'arm64', 'i386', 'amd64'].each { arch ->
+        from("vendor/busybox/$arch") { include 'busybox'; into "tools/$arch" }
+        from("vendor/rootfs-mount/$arch") { include 'rootfs-mount'; into "tools/$arch" }
+    }
+    from('licenses') { into 'licenses' }
+    from("$rootDir/LICENSE") { into 'licenses'; rename { 'Linuxoid-GPL-3.txt' } }
+    from('NOTICE.md') { into 'licenses'; rename { 'THIRD_PARTY_NOTICES.md' } }
+    into layout.buildDirectory.dir('generated/toolAssets')
+}
+tasks.named('preBuild').configure { dependsOn 'bundleLinuxoidTools' }
+dependencies {
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test:runner:1.6.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
+}

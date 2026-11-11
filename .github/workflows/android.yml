@@ -17,7 +17,7 @@ jobs:
           packages: 'platform-tools platforms;android-35 build-tools;35.0.0'
           log-accepted-android-sdk-licenses: false
       - run: python3 -m unittest discover -s tests -v
-      - run: ./gradlew --no-daemon assembleDebug assembleRelease lint
+      - run: ./gradlew --no-daemon :app:assembleDebug :app:assembleRelease :app:lint
       - uses: actions/upload-artifact@v4
         with:
           name: linuxdeploy-apks-and-lint

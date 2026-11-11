@@ -1,0 +1,7 @@
+<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><link rel="stylesheet" href="xterm.css"><style>html,body{margin:0;height:100%;background:#0d1614;overflow:hidden}#terminal{height:100%;padding:4px 10px;box-sizing:border-box}.xterm{height:100%}</style></head><body><div id="terminal"></div><script src="xterm.js"></script><script>
+const term=new Terminal({fontSize:14,fontFamily:'monospace',cursorBlink:true,scrollback:3000,theme:{background:'#0d1614',foreground:'#e9f2e9',cursor:'#c6f59a',green:'#c6f59a',blue:'#7fc7da'}});
+term.open(document.getElementById('terminal'));term.onData(data=>Linuxoid.input(data));
+window.feed=b64=>{const raw=atob(b64);term.write(Uint8Array.from(raw,c=>c.charCodeAt(0)));};
+function fit(){const canvas=document.createElement('canvas');const c=canvas.getContext('2d');c.font='14px monospace';const cols=Math.max(20,Math.floor((innerWidth-24)/c.measureText('M').width));const rows=Math.max(5,Math.floor((innerHeight-12)/17));term.resize(cols,rows);Linuxoid.resize(cols,rows);}
+Linuxoid.ready();setTimeout(fit,150);window.addEventListener('resize',fit);document.addEventListener('click',()=>term.focus());term.focus();
+</script></body></html>

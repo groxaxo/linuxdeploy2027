@@ -1,0 +1,3 @@
+
+linuxoid/vendor/** linguist-vendored -whitespace
+linuxoid/src/main/assets/web/xterm.* linguist-vendored
